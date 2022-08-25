@@ -14,13 +14,28 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->uuid('id')->primary();
+            // $table->id();
+            $table->string('name', 10);
+            $table->char('phone', 10);
+            $table->string('email', 100)->unique();
+            $table->date('birth');
+            $table->char('sex', 1);
+            $table->string('intro')->nullable();
+            $table->string('line', 20)->nullable();
+            $table->string('img')->nullable();
+            $table->string('years', 5);
+            $table->string('amount', 5)->nullable();
+            $table->string('animals', 100)->nullable();
+            $table->string('space', 5)->nullable();
+            $table->string('thoughts')->nullable();
+            // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->bigInteger('location_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('location_id')->references('id')->on('locations');
         });
     }
 
