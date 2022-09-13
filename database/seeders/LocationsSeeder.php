@@ -1169,27 +1169,27 @@ class LocationsSeeder extends Seeder
         ]);
 
         $Locations = Location::create([
-            'location' => '金門縣',
+            'location' => '金門縣金城鎮',
         ]);
 
         $Locations = Location::create([
-            'location' => '金門縣',
+            'location' => '金門縣金湖鎮',
         ]);
 
         $Locations = Location::create([
-            'location' => '金門縣',
+            'location' => '金門縣金沙鎮',
         ]);
 
         $Locations = Location::create([
-            'location' => '金門縣',
+            'location' => '金門縣金寧鄉',
         ]);
 
         $Locations = Location::create([
-            'location' => '金門縣',
+            'location' => '金門縣烈嶼鄉',
         ]);
 
         $Locations = Location::create([
-            'location' => '金門縣',
+            'location' => '金門縣烏坵鄉',
         ]);
 
         $Locations = Location::create([

@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdoptersSeeder::class);
         $this->call(AdoptionApplicationsSeeder::class);
         $this->call(BasicInfoSeeder::class);
-        // $this->call(ResumePhotosSeeder::class);
+        $this->call(ResumePhotosSeeder::class);
 
         // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
