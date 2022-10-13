@@ -83,4 +83,18 @@ class ExperienceController extends Controller
             'req' => $comments,
         ], 200);
     }
+
+    public function get_all_experiences()
+    {
+        //
+        $experiences = $this->experience->getAllExperience();
+        if (!$experiences) {
+            return response()->json(['status' => "查詢失敗"], 400);
+        }
+        return response()->json([
+            // 'dd' => 'dd HI Show',
+            'status' => '查詢成功',
+            'req' => $experiences,
+        ], 200);
+    }
 }
