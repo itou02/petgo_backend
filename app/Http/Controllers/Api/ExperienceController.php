@@ -71,17 +71,16 @@ class ExperienceController extends Controller
         //
     }
 
-    public function get_all_experiences()
+    public function get_comment(Request $request)
     {
-        //
-        $experiences = $this->experience->getAllExperience();
-        if (!$experiences) {
-            return response()->json(['status' => "查詢失敗"], 400);
+        $comments = $this->experience->getComment();
+        if (!$comments) {
+            return response()->json(['status' => "No comments."], 400);
         }
         return response()->json([
-            // 'dd' => 'dd HI Show',
-            'status' => '查詢成功',
-            'req' => $experiences,
+            // 'dd' => 'dd HI Store',
+            'status' => 'Found comments.',
+            'req' => $comments,
         ], 200);
     }
 }

@@ -27,9 +27,6 @@ Route::middleware('guest')->group(function () {
         dd("Testing");
     });
 
-    // 使用者
-    Route::patch('forget/revise/{id}', [UserController::class, 'password_reset']);
-
-    // 體驗
-    Route::get('experience', [ExperienceController::class, 'get_all_experiences']);
+    // 首頁
+    Route::get('/', [ExperienceController::class, 'get_comment']);
 });
