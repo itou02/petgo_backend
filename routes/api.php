@@ -33,3 +33,4 @@ Route::middleware('guest')->group(function () {
     // 體驗
     Route::get('experience', [ExperienceController::class, 'get_all_experiences']);
 });
+
