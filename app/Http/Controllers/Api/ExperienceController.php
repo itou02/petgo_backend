@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Response;
 use App\Http\Service\ExperienceService;
 
 class ExperienceController extends Controller
@@ -69,6 +69,19 @@ class ExperienceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function get_comment(Request $request)
+    {
+        // return "1";
+        $comments = $this->experience->getComment();
+        if (!$comments) {
+            return response()->json(['status' => "No comments."], 400);
+        }
+        return response()->json([
+            'status' => 'Found comments.',
+            'req' => $comments,
+        ], 200);
     }
 
     public function get_all_experiences()

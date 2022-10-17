@@ -17,20 +17,37 @@ use App\Http\Controllers\Api\ExperienceController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::get('/',[ExperienceController::class, 'get_comment'])->middleware('cors') ;
 
-Route::middleware('guest')->group(function () {
-    // 頁面測試
-    Route::get('test', function () {
-        dd("Testing");
+Route::middleware('cors')->group(function () {
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
     });
 
-    // 使用者
-    Route::patch('forget/revise/{id}', [UserController::class, 'password_reset']);
+    Route::middleware('guest')->group(function () {
+        // 頁面測試
+        Route::get('test', function () {
+            return ['message'=>'hello'];
+        });
 
-    // 體驗
-    Route::get('experience', [ExperienceController::class, 'get_all_experiences']);
+        // 首頁
+        Route::get('/', [ExperienceController::class, 'get_comment']);
+
+        // 使用者
+        Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']);
+
+        // 體驗
+        Route::get('experience', [ExperienceController::class, 'get_all_experiences']);
+    });
+
+    Route::middleware('auth')->group(function () {
+        // 頁面測試
+        Route::get('TEST', function () {
+            dd("Testing");
+        });
+
+        // 使用者
+        Route::get('member', [UserController::class, 'user_info']);
+        Route::patch('member/reset-password/{id}', [UserController::class, 'password_reset']);
+    });
 });
-
