@@ -50,6 +50,24 @@
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
 
+            <div>
+                <x-label for="phone" :value="__('Phone')" />
+
+                <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autofocus />
+            </div>
+
+            <div>
+                <x-label for="sex" :value="__('Sex')" />
+
+                <x-input id="sex" class="block mt-1 w-full" type="text" name="sex" :value="old('sex')" required autofocus />
+            </div>
+
+            <div>
+                <x-label for="date" :value="__('Date')" />
+
+                <x-input id="date" class="block mt-1 w-full" type="date" name="date" :value="old('date')" required autofocus />
+            </div>
+
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}

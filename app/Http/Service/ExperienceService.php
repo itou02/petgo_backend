@@ -22,8 +22,8 @@ class ExperienceService
             ->join('locations', 'users.location_id', '=', 'locations.id')
             ->select(
                 'pets.img',
-                'users.name',
-                'pets.name',
+                'users.name AS userName',
+                'pets.name AS petName',
                 'experiences.comment',
                 DB::raw('CONCAT(SUBSTR(locations.location, 1, 3), ", ", SUBSTR(locations.location, 4, 10)) AS locations'),
             )
