@@ -64,6 +64,7 @@ class RegisteredUserController extends Controller
 
         return response()->json([
             'status' => '成功',
+            'user' => $user,
         ]);
 
         // return redirect(RouteServiceProvider::HOME);

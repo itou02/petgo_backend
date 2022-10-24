@@ -33,26 +33,28 @@ Route::middleware('cors')->group(function () {
             // return ['message'=>'hello'];
         });
 
-        // 首頁 已接上
-        Route::get('/', [ExperienceController::class, 'get_comment']); //what’s fucking this
+        Route::get('pets', [PetController::class, 'index']); //我的寵物清單讀取
+
+
+        // 首頁 已接上 缺圖片
+        Route::get('/', [ExperienceController::class, 'get_comment']);
 
         // 使用者
         Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']); //修改密碼
 
-            // 使用者
-        Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']);
-
     });
     Route::middleware('auth')->group(function () { //使用者
         //使用者->寵物
-        Route::get('pets', [PetController::class, 'index']); //我的寵物清單讀取
+        // Route::get('pets', [PetController::class, 'index']); //我的寵物清單讀取
 
+        // 首頁 已接上 缺圖片
+        Route::get('/Home', [ExperienceController::class, 'get_comment']);
+        
         //使用者
-        Route::patch('forget/revise/{id}', [UserController::class, 'password_reset']);
-        Route::get('member', [UserController::class, 'user_info']);
+        Route::get('member', [UserController::class, 'user_info']); //會員資料
         Route::patch('member/reset-password/{id}', [UserController::class, 'password_reset']);
 
         //體驗
-        Route::get('experience', [ExperienceController::class, 'get_all_experiences']); //清單讀取
+        Route::get('Experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); //清單讀取
     });
 });

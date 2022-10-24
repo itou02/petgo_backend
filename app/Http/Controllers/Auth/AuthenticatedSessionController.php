@@ -47,7 +47,7 @@ class AuthenticatedSessionController extends Controller
 
             DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
             
-            return response()->json(['status' => true, 'login_data' => ['userToken' => $token], 'user' => Auth::user(),'session' =>session()], 200);
+            return response()->json(['status' => true, 'login_data' => ['userToken' => $token], 'user' => Auth::user(), 'session' =>session()], 200);
         } else {
             return response()->json([
                 'status' => '登錄失敗',
