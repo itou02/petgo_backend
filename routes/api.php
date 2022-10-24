@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ExperienceController;
 use App\Http\Controllers\Api\PetController;
+use App\Http\Controllers\Api\CommentController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -22,10 +23,19 @@ use Illuminate\Support\Facades\Auth;
 // 首頁 已接上
 Route::get('/', [ExperienceController::class, 'get_comment']); // 評論
 
-Route::middleware('guest')->group(function () { // 遊客
+Route::get('csrftoken' ,function () {
+    return response()->json([
+        'csrftoken' => csrf_token(),
+    ]);
+});//測試取csrftoken
+
+Route::middleware('guest')->group(function () { //遊客
     // 頁面測試
+    Route::get('test/{id}',  function () {
+        dd('ret');
+    });
     Route::get('test', function () {
-        dd("Testing");
+        dd(Auth::user());
     });
 
     // 使用者
@@ -45,6 +55,7 @@ Route::middleware('auth')->group(function () { // 會員
     // 使用者
     Route::get('member', [UserController::class, 'user_info']); // 會員資料
     Route::patch('member/reset-password/', [UserController::class, 'password_reset']); // 更改密碼
+    Route::get('mycomment',[CommentController::class, 'index']);//我的評論清單讀取
 
     // 寵物
     Route::get('pet-list', [PetController::class, 'pet_list']); // 寵物清單

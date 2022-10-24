@@ -87,6 +87,7 @@ class UserController extends Controller
     // 會員資料 - 修改密碼
     public function password_reset(Request $request)
     {
+        dd($request, $id);
         if ($request->confirm != $request->password) {
             return response()->json(['status' => "The two passwords are not the same."], 400);
         }
