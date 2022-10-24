@@ -13,9 +13,10 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'register',
-        'login',
-        'forget/revise/{id}',
-        'member/reset-password/{id}',
+        '*',
+        // 'register',
+        // 'login',
+        // 'api/forget/revise/{id}',
+        // 'member/reset-password/{id}',
     ];
 }

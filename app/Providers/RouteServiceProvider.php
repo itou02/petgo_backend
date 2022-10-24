@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('web')
+            Route::middleware('web') // 'api' → 'web' 解決一直跳到dashboard
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
