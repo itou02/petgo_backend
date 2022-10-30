@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::get('/dashboard', function () {
     // return view('dashboard');
     return response()->json([
         'status' => '已登錄',
+        'user' =>Auth::user()->name,
     ]);
 })->middleware(['auth'])->name('dashboard');
 

@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-use App\Http\Service\PetService;
+use App\Http\Service\LoctaionService;
 
-class PetController extends Controller
+class AnotherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +16,11 @@ class PetController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $pet;
+    protected $location;
+    
     public function __construct()
     {
-        $this->pet = new PetService();
+        $this->location = new LoctaionService();
     }
 
     public function index()
@@ -74,22 +73,13 @@ class PetController extends Controller
         //
     }
 
-    // 寵物清單
-    public function pet_list()
+    public function getareas(Request $request)
     {
-        $result = $this->pet->petList();
-        // dd($result);
-        if (!$result) {
-            return response()->json(['status' => "There are no fur babies here."], 400);
-        }
-        return response()->json([
-            'status' => 'These are your fur babies.',
-            'req' => $result,
-        ], 200);
-    }
+        //
+        $id = DB::table('citys')->where('city',$request->city)->get();
 
-    // 寵物詳細資料
-    public function pet_detail()
-    {
+        return response()->json([
+            'area' => $this->location->onchange_getareas($id[0]->id),
+        ]);
     }
 }
