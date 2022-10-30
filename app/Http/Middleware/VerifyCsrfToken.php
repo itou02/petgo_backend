@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         // 'register',
         // 'login',
         // 'forget/revise/{id}',
+        // 'api/forget/revise/{id}',
         // 'member/reset-password/{id}',
     ];
 }

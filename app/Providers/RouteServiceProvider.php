@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = 'http://localhost:3000';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('web')
+            Route::middleware('web') // 'api' → 'web' 解決一直跳到dashboard
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 

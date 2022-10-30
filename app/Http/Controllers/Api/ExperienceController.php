@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Response;
+use Carbon\Carbon;
+
+use App\Http\Service\UserService;
 use App\Http\Service\ExperienceService;
 
 class ExperienceController extends Controller
@@ -18,6 +20,7 @@ class ExperienceController extends Controller
     protected $experience;
     public function __construct()
     {
+        $this->user = new UserService();
         $this->experience = new ExperienceService();
     }
 
@@ -71,6 +74,7 @@ class ExperienceController extends Controller
         //
     }
 
+    // 首頁 - 評論
     public function get_comment(Request $request)
     {
         // return "1";
@@ -84,17 +88,37 @@ class ExperienceController extends Controller
         ], 200);
     }
 
+    // 所有體驗
     public function get_all_experiences()
     {
         //
         $experiences = $this->experience->getAllExperience();
+        $varieties =  $this->experience->variety();
         if (!$experiences) {
-            return response()->json(['status' => "查詢失敗"], 400);
+            return response()->json(['status' => "Query failed."], 400);
         }
         return response()->json([
-            // 'dd' => 'dd HI Show',
-            'status' => '查詢成功',
-            'req' => $experiences,
+            'status' => 'Search successful.',
+            'experiences' => $experiences, // 卡片
+            'varieties' => $varieties, // 下拉選單 品種
+        ], 200);
+    }
+
+    // 體驗申請 - 顯示
+    public function basic_info()
+    {
+        $basicInfo = $this->user->ApplyBasicInfo();
+        $user = $this->user->UserInfo();
+        $diff = Carbon::now()->diff($user->birth);
+        $age = $diff->y;
+        // dd($basicInfo, $age);
+        if (!$basicInfo) {
+            return response()->json(['status' => "Query failed."], 400);
+        }
+        return response()->json([
+            'status' => 'Search successful.',
+            'req' => $basicInfo,
+            'age' => $age,
         ], 200);
     }
 }

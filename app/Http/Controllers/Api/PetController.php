@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 use App\Http\Service\PetService;
 
 class PetController extends Controller
@@ -15,25 +17,16 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct(PetService $PetService)
+
+    protected $pet;
+    public function __construct()
     {
-        $this->PetService = $PetService;
+        $this->pet = new PetService();
     }
+
     public function index()
     {
         //
-        $id = Auth::user()->id;
-        $pets = DB::table('pets')->where('user_id', $id)->get();
-        if ($pets->count() > 0) {
-            return response()->json([
-                'status' => '讀取成功 true',
-                'pets' => $pets,
-            ]);
-        } else {
-            return response()->json([
-                'status' => '查無資料 false',
-            ]);
-        }
     }
 
     /**
@@ -79,5 +72,24 @@ class PetController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // 寵物清單
+    public function pet_list()
+    {
+        $result = $this->pet->petList();
+        dd($result);
+        if (!$result) {
+            return response()->json(['status' => "There are no fur babies here."], 400);
+        }
+        return response()->json([
+            'status' => 'These are your fur babies.',
+            'req' => $result,
+        ], 200);
+    }
+
+    // 寵物詳細資料
+    public function pet_detail()
+    {
     }
 }

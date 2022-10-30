@@ -19,42 +19,39 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/',[ExperienceController::class, 'get_comment'])->middleware('cors') ;
+// 首頁 已接上
+Route::get('/', [ExperienceController::class, 'get_comment']); // 評論
 
-Route::middleware('cors')->group(function () {
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
-    });
-
-    Route::middleware('guest')->group(function () { //遊客
+Route::middleware('guest')->group(function () { // 遊客
     // 頁面測試
-        Route::get('test', function () {
-            dd("Testing");
-            // return ['message'=>'hello'];
-        });
-
-        Route::get('pets', [PetController::class, 'index']); //我的寵物清單讀取
-
-
-        // 首頁 已接上 缺圖片
-        Route::get('/', [ExperienceController::class, 'get_comment']);
-
-        // 使用者
-        Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']); //修改密碼
-
+    Route::get('test', function () {
+        dd("Testing");
     });
-    Route::middleware('auth')->group(function () { //使用者
-        //使用者->寵物
-        // Route::get('pets', [PetController::class, 'index']); //我的寵物清單讀取
 
-        // 首頁 已接上 缺圖片
-        Route::get('/Home', [ExperienceController::class, 'get_comment']);
-        
-        //使用者
-        Route::get('member', [UserController::class, 'user_info']); //會員資料
-        Route::patch('member/reset-password/{id}', [UserController::class, 'password_reset']);
+    // 使用者
+    Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']); // 修改密碼
 
-        //體驗
-        Route::get('Experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); //清單讀取
+    Route::get('pet-list', [PetController::class, 'pet_list']); // 寵物清單
+
+
+    // 體驗
+    Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗
+    Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
+});
+
+Route::middleware('auth')->group(function () { // 會員
+    // 頁面測試
+    Route::get('TEST', function () {
+        dd("Testing");
     });
+
+    // 使用者
+    Route::get('member', [UserController::class, 'user_info']); // 會員資料
+    Route::patch('member/reset-password/', [UserController::class, 'password_reset']); // 更改密碼
+
+    // 寵物
+    Route::delete('pet-list', [PetController::class, 'delete_pet']); // 刪除寵物
+
+    // 體驗
+    Route::get('experience/experiencer-illustrate/card/ex-pet-detail/ex-form', [ExperienceController::class, 'basic_info']); // 體驗申請
 });

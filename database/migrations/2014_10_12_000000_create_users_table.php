@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('intro')->nullable();
             $table->string('line', 20)->nullable();
             $table->string('img')->nullable();
-            $table->string('years', 5);
+            $table->string('years', 5)->nullable();
             $table->string('amount', 5)->nullable();
             $table->string('animals', 100)->nullable();
             $table->string('space', 5)->nullable();
