@@ -19,35 +19,40 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::get('/',[ExperienceController::class, 'get_comment'])->middleware('cors') ;
 
-Route::middleware('guest')->group(function () { //遊客
-    // 頁面測試
-    Route::get('test', function () {
-        dd("Testing");
+Route::middleware('cors')->group(function () {
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
     });
 
-    // 首頁
-    Route::get('/', [ExperienceController::class, 'get_comment']); //what’s fucking this
+    Route::middleware('guest')->group(function () { //遊客
+    // 頁面測試
+        Route::get('test', function () {
+            dd("Testing");
+            // return ['message'=>'hello'];
+        });
 
-    // 使用者
-    Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']); //修改密碼
+        // 首頁 已接上
+        Route::get('/', [ExperienceController::class, 'get_comment']); //what’s fucking this
 
-    // 體驗
-    Route::get('experience', [ExperienceController::class, 'get_all_experiences']);
-});
+        // 使用者
+        Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']); //修改密碼
 
-Route::middleware('auth')->group(function () { //使用者
-    //使用者->寵物
-    Route::get('pets', [PetController::class, 'index']); //我的寵物清單讀取
+            // 使用者
+        Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']);
 
-    //使用者
-    Route::patch('forget/revise/{id}', [UserController::class, 'password_reset']);
-    Route::get('member', [UserController::class, 'user_info']);
-    Route::patch('member/reset-password/{id}', [UserController::class, 'password_reset']);
+    });
+    Route::middleware('auth')->group(function () { //使用者
+        //使用者->寵物
+        Route::get('pets', [PetController::class, 'index']); //我的寵物清單讀取
 
-    //體驗
-    Route::get('experience', [ExperienceController::class, 'get_all_experiences']); //清單讀取
+        //使用者
+        Route::patch('forget/revise/{id}', [UserController::class, 'password_reset']);
+        Route::get('member', [UserController::class, 'user_info']);
+        Route::patch('member/reset-password/{id}', [UserController::class, 'password_reset']);
+
+        //體驗
+        Route::get('experience', [ExperienceController::class, 'get_all_experiences']); //清單讀取
+    });
 });

@@ -16,14 +16,15 @@ class ExperienceService
 
     public function getComment()
     {
+        // dd();
         $comment = DB::table('experiences')
             ->join('pets', 'experiences.pet_id', '=', 'pets.id')
             ->join('users', 'pets.user_id', '=', 'users.id')
             ->join('locations', 'users.location_id', '=', 'locations.id')
             ->select(
                 'pets.img',
-                'users.name',
-                'pets.name',
+                'users.name AS userName',
+                'pets.name AS petName',
                 'experiences.comment',
                 DB::raw('CONCAT(SUBSTR(locations.location, 1, 3), ", ", SUBSTR(locations.location, 4, 10)) AS locations'),
             )
@@ -32,6 +33,7 @@ class ExperienceService
             ->orderBy('experiences.updated_at', 'desc')
             ->take(12)
             ->get();
+
         return $comment;
     }
 
