@@ -45,6 +45,13 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $location = $request->location_a . $request->location_b;
+
+        $comment = DB::select('SELECT *
+        FROM locations
+        WHERE location = ?', [$location]);
+        $location_id = $comment[0]->id;
+
         $uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
 
         $user = User::create([
@@ -54,13 +61,13 @@ class RegisteredUserController extends Controller
             'phone' => $request->phone,
             'birth' => $request->date,
             'email' => $request->email,
-            'location_id' => $request->location,
+            'location_id' => $location_id,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
 
         return response()->json([
             'status' => '成功',

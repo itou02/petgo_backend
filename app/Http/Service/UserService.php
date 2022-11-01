@@ -8,8 +8,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use App\Http\Service\PetService;
+
 class UserService
 {
+
+    protected $pet;
+    public function __construct()
+    {
+        $this->pet = new PetService();
+    }
     // public function getAllUser()
     // {
     //     $users = User::orderBy('created_at')->get();
@@ -64,4 +72,35 @@ class UserService
         );
         return $result;
     }
+
+    //取自身經歷內容
+    public function RearingPet()
+    {
+        $id = Auth::user()->id;
+
+        $part1 = DB::select('SELECT *
+        from basic_infos
+        WHERE user_id = ?',[$id]);
+        
+
+        $part3 = DB::select('SELECT id , years , amount , animals , space , thoughts
+        from users
+        WHERE id = ?',[$id]);
+
+        $part4 = DB::select('SELECT *
+        from resume_photos
+        WHERE user_id = ?',[$id]);
+
+        return response()->json([
+            'part1' => $part1,
+            'part2' => [
+                'part2.1' => $this->pet->petList(),
+                'part2.2' => $this->pet->petList_experience(),
+                'part2.3' => $this->pet->petList_shared(),
+            ],
+            'part3' => $part3,
+            'part4' => $part4,
+        ]);
+    }
+
 }
