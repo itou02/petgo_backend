@@ -47,13 +47,24 @@ class AuthenticatedSessionController extends Controller
 
             DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
             
-            return redirect('/http://localhost:3000');
-        //     response()->json(['status' => true, 'login_data' => ['userToken' => $token], 'user' => Auth::user(), 'session' =>session()], 200);
+            // return redirect()->intended(RouteServiceProvider::HOME);
+            // return redirect(RouteServiceProvider::HOME);
+            return response()->json(['status' => true, 'login_data' => ['userToken' => $token], 'user' => Auth::user(), 'session' =>session()], 200);
+            } else {
+            return response()->json([
+                'status' => '登錄失敗',
+            ]);
+
+        //     return response()->json(['status' => true,
+        //     'login_data' => ['userToken' => $token],
+        //     'user' => Auth::user(),
+        //     'csrftoken' => csrf_token(),
+        //     'session' =>session()], 200);
         // } else {
         //     return response()->json([
-        //         'status' => '登錄失敗',
+        //         'status' => 'false',
         //     ]);
-        }
+        // }
 
         // $request->authenticate();
 
@@ -67,6 +78,7 @@ class AuthenticatedSessionController extends Controller
 
         // return redirect()->intended(RouteServiceProvider::HOME);
     }
+}
 
     /**
      * Destroy an authenticated session.
@@ -82,6 +94,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return response()->json([
+        'status' => '登出成功'
+        ]);
+
+        //return redirect('/');
     }
 }
