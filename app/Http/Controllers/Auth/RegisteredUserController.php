@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\DB;
 use ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+
 
 class RegisteredUserController extends Controller
 {
@@ -35,16 +38,21 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'sex' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
-            // 'birth' => ['required', 'date', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+
+        $x = Validator::make($request->all(),[
+            'name' => ['required','string','max:255'],
+            'sex' => ['required','string','max:255'],
+            'phone' => ['required','string','max:255'],
+            'email' => ['required','string','email','max:255','unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        if ($x->fails())
+        {
+            $messages = $x->messages();
+            return $messages;
+        }
+        
         $location = $request->location_a . $request->location_b;
 
         $comment = DB::select('SELECT *
