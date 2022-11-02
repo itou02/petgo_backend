@@ -32,6 +32,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        return redirect()->away('http://localhost:3000');
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             // 認證通過...
             $request->session()->regenerate();
@@ -47,24 +48,17 @@ class AuthenticatedSessionController extends Controller
 
             DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
             
-            // return redirect()->intended(RouteServiceProvider::HOME);
-            // return redirect(RouteServiceProvider::HOME);
-            return response()->json(['status' => true, 'login_data' => ['userToken' => $token], 'user' => Auth::user(), 'session' =>session()], 200);
-            } else {
+            return redirect()->to('http://localhost:3000');
+            return response()->json(['status' => true,
+            'login_data' => ['userToken' => $token],
+            'user' => Auth::user(),
+            'csrftoken' => csrf_token(),
+            'session' =>session()], 200);
+        } else {
             return response()->json([
-                'status' => '登錄失敗',
+                'status' => 'false',
             ]);
-
-        //     return response()->json(['status' => true,
-        //     'login_data' => ['userToken' => $token],
-        //     'user' => Auth::user(),
-        //     'csrftoken' => csrf_token(),
-        //     'session' =>session()], 200);
-        // } else {
-        //     return response()->json([
-        //         'status' => 'false',
-        //     ]);
-        // }
+        }
 
         // $request->authenticate();
 
@@ -78,7 +72,6 @@ class AuthenticatedSessionController extends Controller
 
         // return redirect()->intended(RouteServiceProvider::HOME);
     }
-}
 
     /**
      * Destroy an authenticated session.
@@ -95,9 +88,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return response()->json([
-        'status' => '登出成功'
+        'status' => '登出成功',
         ]);
 
         //return redirect('/');
     }
 }
+
