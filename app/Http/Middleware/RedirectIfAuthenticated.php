@@ -23,7 +23,8 @@ class RedirectIfAuthenticated
         // dd($request);
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect('http://localhost:3000/');
+                return redirect(RouteServiceProvider::HOME);
+                // return redirect('localhost:3000');
             }
         }
 

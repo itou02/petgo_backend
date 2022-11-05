@@ -32,7 +32,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        return redirect()->away('http://localhost:3000');
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             // 認證通過...
             $request->session()->regenerate();
@@ -48,7 +47,7 @@ class AuthenticatedSessionController extends Controller
 
             DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
             
-            return redirect()->to('http://localhost:3000');
+            // return redirect()->away('http://localhost:3000');
             return response()->json(['status' => true,
             'login_data' => ['userToken' => $token],
             'user' => Auth::user(),
