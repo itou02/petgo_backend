@@ -4,29 +4,35 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-use App\Http\Service\PetService;
-
-class PetController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    protected $pet;
-    public function __construct()
-    {
-        $this->pet = new PetService();
-    }
-
     public function index()
     {
         //
+        $id = Auth::user()->id;
+        $comment = DB::select('SELECT a.name , a.img , b.user_id , b.comment , b.updated_at
+        from pets as a
+        INNER JOIN experiences as b on a.id = b.pet_id
+        WHERE b.user_id = ?', [$id]);
+
+        if ($comment == NULL) {
+            return response()->json([
+                'status' => '暫無評論',
+            ]);
+        } else {
+            return response()->json([
+                'status' => '讀取成功',
+                'comment' => $comment,
+            ]);
+        }
     }
 
     /**
@@ -72,24 +78,5 @@ class PetController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    // 寵物清單
-    public function pet_list()
-    {
-        $result = $this->pet->petList();
-        // dd($result);
-        if (!$result) {
-            return response()->json(['status' => "There are no fur babies here."], 400);
-        }
-        return response()->json([
-            'status' => 'These are your fur babies.',
-            'req' => $result,
-        ], 200);
-    }
-
-    // 寵物詳細資料
-    public function pet_detail()
-    {
     }
 }

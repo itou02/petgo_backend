@@ -2,11 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ExperienceController;
 use App\Http\Controllers\Api\PetController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\SharedController;
+use App\Http\Controllers\Api\AnotherController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,40 +23,60 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/',[ExperienceController::class, 'get_comment'])->middleware('cors') ;
+// 首頁 已接上
+Route::get('/', [ExperienceController::class, 'get_comment']); // 評論 OK
 
-Route::middleware('cors')->group(function () {
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::get('csrf_token', function () { // 測試取csrftoken
+    return response()->json([
+        'csrftoken' => csrf_token(),
+    ]);
+});
 
-    Route::middleware('guest')->group(function () { //遊客
+Route::post('getarea', [AnotherController::class, 'getareas']); // 地區下拉
+
+// 體驗
+Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗 OK
+Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
+
+Route::middleware('guest')->group(function () { ///////////////////////////////////////////////////遊客
     // 頁面測試
-        Route::get('test', function () {
-            dd("Testing");
-            // return ['message'=>'hello'];
-        });
-
-        // 首頁 已接上
-        Route::get('/', [ExperienceController::class, 'get_comment']); //what’s fucking this
-
-        // 使用者
-        Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']); //修改密碼
-
-            // 使用者
-        Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']);
-
+    Route::get('test/{id}',  function () {
+        dd('ret');
     });
-    Route::middleware('auth')->group(function () { //使用者
-        //使用者->寵物
-        Route::get('pets', [PetController::class, 'index']); //我的寵物清單讀取
-
-        //使用者
-        Route::patch('forget/revise/{id}', [UserController::class, 'password_reset']);
-        Route::get('member', [UserController::class, 'user_info']);
-        Route::patch('member/reset-password/{id}', [UserController::class, 'password_reset']);
-
-        //體驗
-        Route::get('experience', [ExperienceController::class, 'get_all_experiences']); //清單讀取
+    Route::get('test', function () {
+        dd(Auth::user());
     });
+
+
+    // 使用者
+    Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']); // 修改密碼
+
+    // // 體驗
+    // Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗
+    // Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
+});
+
+Route::middleware('auth')->group(function () { ///////////////////////////////////////////////////會員
+    // 頁面測試
+    Route::get('TEST', function () {
+        dd("Testing");
+    });
+
+    // 使用者
+    Route::get('member', [UserController::class, 'user_info']); // 會員資料 顯示(401)
+    Route::patch('member/reset-password/', [UserController::class, 'password_reset']); // 更改密碼
+    Route::get('mycomment', [CommentController::class, 'index']); // 我的評論 顯示(401)
+    // Route::get('comment/ex-pet-detail');//我的評論/體驗寵物詳細資料
+    Route::get('rearing-pet', [UserController::class, 'rearing_pet']); // 自身經歷讀取
+    //Route::patch();
+    // Route::get();
+
+    // 寵物
+    Route::get('pet-list', [PetController::class, 'pet_list']); // 寵物清單 還沒修改好版面先空著
+
+    // 體驗
+    Route::get('experience/experiencer-illustrate/card/ex-pet-detail/ex-form', [ExperienceController::class, 'basic_info']); // 體驗申請顯示(401)
+
+    //共養
+    Route::get('share-already-login', [SharedController::class, 'index']); // 共養首頁
 });

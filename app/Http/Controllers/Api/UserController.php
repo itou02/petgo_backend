@@ -71,33 +71,31 @@ class UserController extends Controller
         //
     }
 
+    // 會員資料
     public function user_info()
     {
-        // dd('test');
         $result = $this->user->UserInfo();
         if (!$result) {
             return response()->json(['status' => "No such user."], 400);
         }
         return response()->json([
-            // 'dd' => 'dd HI Store',
             'status' => 'Found this user.',
             'req' => $result,
         ], 200);
     }
 
     // 會員資料 - 修改密碼
-    public function password_reset(Request $request, $id)
+    public function password_reset(Request $request)
     {
         // dd($request, $id);
         if ($request->confirm != $request->password) {
             return response()->json(['status' => "The two passwords are not the same."], 400);
         }
-        $result = $this->user->ResetPassword($request, $id);
+        $result = $this->user->ResetPassword($request);
         if (!$result) {
             return response()->json(['status' => "Wrong old password."], 400);
         }
         return response()->json([
-            // 'dd' => 'dd HI Store',
             'status' => 'Password has been updated.',
             'req' => $result,
         ], 200);
@@ -106,7 +104,6 @@ class UserController extends Controller
     // 忘記密碼 - 修改密碼
     public function password_revise(Request $request, $id)
     {
-        // dd($request, $id);
         if ($request->confirm != $request->password) {
             return response()->json(['status' => "The two passwords are not the same."], 400);
         }
@@ -115,9 +112,18 @@ class UserController extends Controller
             return response()->json(['status' => "Failed to change password."], 400);
         }
         return response()->json([
-            // 'dd' => 'dd HI Store',
             'status' => 'Password has been updated.',
             'req' => $result,
+        ], 200);
+    }
+
+    //取自身經歷
+    public function rearing_pet()
+    {
+        //
+        return response()->json([
+            'status' => '資料擷取成功',
+            'req' => $this->user->RearingPet(),
         ], 200);
     }
 }

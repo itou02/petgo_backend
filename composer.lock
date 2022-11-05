@@ -5767,6 +5767,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/breeze/zipball/91ae7b749e9b3562355a78f945b4ee71153153f6",
                 "reference": "91ae7b749e9b3562355a78f945b4ee71153153f6",
+            
                 "shasum": ""
             },
             "require": {

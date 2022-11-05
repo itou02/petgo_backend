@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Http\Service\LoctaionService;
+use App\Http\Service\SharedService;
 
-use App\Http\Service\PetService;
-
-class PetController extends Controller
+class SharedController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,15 +16,24 @@ class PetController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $pet;
+    protected $location;
+    protected $shared;
+    
     public function __construct()
     {
-        $this->pet = new PetService();
+        $this->location = new LoctaionService();
+        $this->shared = new SharedService();
     }
 
     public function index()
     {
         //
+        return response()->json([
+            'status' =>'true',
+            'citys' => $this->location->getcitys(),
+            'area' => $this->location->getareas(),
+            'shared' => $this->shared->getshared(),
+        ],200);
     }
 
     /**
@@ -49,6 +56,13 @@ class PetController extends Controller
     public function show($id)
     {
         //
+
+        return response()->json([//還沒改完
+            'status' =>'true',
+            'pets' => $this->location->getcitys(),
+            'shared' => $this->location->getareas(),
+            'sharer' => $this->shared->getshared(),
+        ],200);
     }
 
     /**
@@ -72,24 +86,5 @@ class PetController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    // 寵物清單
-    public function pet_list()
-    {
-        $result = $this->pet->petList();
-        // dd($result);
-        if (!$result) {
-            return response()->json(['status' => "There are no fur babies here."], 400);
-        }
-        return response()->json([
-            'status' => 'These are your fur babies.',
-            'req' => $result,
-        ], 200);
-    }
-
-    // 寵物詳細資料
-    public function pet_detail()
-    {
     }
 }
