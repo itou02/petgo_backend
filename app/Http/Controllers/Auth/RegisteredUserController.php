@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\Support\Facades\DB;
-use ramsey\Uuid\Uuid;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-
 
 class RegisteredUserController extends Controller
 {
@@ -38,49 +33,22 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-
-        $x = Validator::make($request->all(),[
-            'name' => ['required','string','max:255'],
-            'sex' => ['required','string','max:255'],
-            'phone' => ['required','string','max:255'],
-            'email' => ['required','string','email','max:255','unique:users'],
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        if ($x->fails())
-        {
-            $messages = $x->messages();
-            return $messages;
-        }
-        
-        $location = $request->location_a . $request->location_b;
-
-        $comment = DB::select('SELECT *
-        FROM locations
-        WHERE location = ?', [$location]);
-        $location_id = $comment[0]->id;
-
-        $uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
-
         $user = User::create([
-            'id' => $uuid,
             'name' => $request->name,
-            'sex' => $request->sex,
-            'phone' => $request->phone,
-            'birth' => $request->date,
             'email' => $request->email,
-            'location_id' => $location_id,
             'password' => Hash::make($request->password),
         ]);
 
-        // event(new Registered($user));
+        event(new Registered($user));
 
-        // Auth::login($user);
+        Auth::login($user);
 
-        return response()->json([
-            'status' => '成功',
-        ]);
-
-        // return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME);
     }
 }

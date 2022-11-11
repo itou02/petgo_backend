@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\UserController;
-use Illuminate\Support\Facades\Auth;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,15 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    // return view('dashboard');
-    return response()->json([
-        'status' => '已登錄',
-        'user' =>Auth::user()->name,
-    ]);
-})->middleware(['auth'])->name('dashboard');
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('guest')->group(function () {
-Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']);
-});
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
