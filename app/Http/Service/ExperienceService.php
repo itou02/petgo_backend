@@ -17,6 +17,7 @@ class ExperienceService
     // 首頁 - 評論
     public function getComment()
     {
+        // dd();
         $comment = DB::table('experiences')
             ->join('pets', 'experiences.pet_id', '=', 'pets.id')
             ->join('users', 'pets.user_id', '=', 'users.id')
@@ -33,6 +34,7 @@ class ExperienceService
             ->orderBy('experiences.updated_at', 'desc')
             ->take(12)
             ->get();
+
         return $comment;
     }
 
