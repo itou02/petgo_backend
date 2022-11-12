@@ -30,19 +30,19 @@ class UserService
     {
         // return Auth::user();
         $id = Auth::user()->id;
-        $varieties = DB::table('experiences')
-            ->join('locations', $id, '=', 'locations.id')
+        $info = DB::table('users')
+            ->join('locations', 'users.location_id', '=', 'locations.id')
             ->select(
-                'users.name',
-                'users.sex',
-                'users.birth',
-                'users.name',
-                'users.name',
+                'users.*',
+                DB::raw('SUBSTR(locations.location, 1, 3) AS city'),
+                DB::raw('SUBSTR(locations.location, 4, 10) AS district'),
+                // Carbon::now()->diff('users.birth'),
+                // Carbon::parse('users.birth')->age,
+                // 'users.birth'->diffInYears(\Carbon\Carbon::now())
             )
-            ->where('experiences.user_id', '=', NULL)
-            ->where('experiences.start_date', '>=', Carbon::today())
-            ->distinct()->get();
-        return $varieties;
+            ->where('users.id', '=', $id)
+            ->get();
+        return $info;
     }
 
     // 會員資料 - 修改
