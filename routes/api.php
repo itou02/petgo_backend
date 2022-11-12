@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () { /////////////////////////////////
 
     // 使用者
     Route::get('member', [UserController::class, 'user_info']); // 會員資料
-    Route::patch('member/reset-password/', [UserController::class, 'password_reset']); // 更改密碼
+    Route::patch('member/reset-password', [UserController::class, 'password_reset']); // 更改密碼
     Route::get('mycomment',[CommentController::class, 'index']);//我的評論
     // Route::get('comment/ex-pet-detail');//我的評論/體驗寵物詳細資料
     Route::get('rearing-pet',[UserController::class, 'rearing_pet']);//自身經歷讀取
