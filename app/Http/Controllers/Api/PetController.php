@@ -89,7 +89,39 @@ class PetController extends Controller
     }
 
     // 寵物詳細資料
-    public function pet_detail()
+    public function pet_detail($id)
     {
+        $result = $this->pet->petDetail($id);
+        // dd($result);
+        if (!$result) {
+            return response()->json(['status' => "There are no fur babies here."], 400);
+        }
+        return response()->json([
+            'status' => 'This is your fur baby.',
+            'req' => $result,
+        ], 200);
+    }
+
+    // 寵物清單 新增寵物
+    public function add_pet(Request $request)
+    {
+        $newPet = $this->pet->addPet($request);
+        return response()->json([
+            'status' => 'Added successfully.',
+            'req' => $newPet,
+        ], 200);
+    }
+
+    // 寵物清單 刪除寵物
+    public function delete_pet($id)
+    {
+        $delete = $this->pet->deletePet($id);
+        if (!$delete) {
+            return response()->json(['status' => "Failed to delete."], 400);
+        }
+        return response()->json([
+            'status' => 'Successfully deleted.',
+            'req' => $delete,
+        ], 200);
     }
 }

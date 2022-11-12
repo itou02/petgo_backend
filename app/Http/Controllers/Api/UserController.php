@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use App\Http\Service\UserService;
 
@@ -75,19 +76,39 @@ class UserController extends Controller
     public function user_info()
     {
         $result = $this->user->UserInfo();
+        $diff = Carbon::now()->diff($result->birth);
+        $age = $diff->y;
         if (!$result) {
             return response()->json(['status' => "No such user."], 400);
         }
         return response()->json([
             'status' => 'Found this user.',
             'req' => $result,
+            'age' => $age
+        ], 200);
+    }
+
+    // 會員資料 - 修改
+    public function edit_user_info($request)
+    {
+        $userInfo = $this->user->UserInfo();
+        $diff = Carbon::now()->diff($userInfo->birth);
+        $age = $diff->y;
+        $result = $this->user->EditUserInfo($request);
+        if (!$result) {
+            return response()->json(['status' => "Update failed."], 400);
+        }
+        return response()->json([
+            'status' => 'Update completed.',
+            'req' => $result,
+            'age' => $age
         ], 200);
     }
 
     // 會員資料 - 修改密碼
     public function password_reset(Request $request)
     {
-        // dd($request, $id);
+        // dd($request);
         if ($request->confirm != $request->password) {
             return response()->json(['status' => "The two passwords are not the same."], 400);
         }
@@ -117,10 +138,9 @@ class UserController extends Controller
         ], 200);
     }
 
-    //取自身經歷
+    // 取自身經歷
     public function rearing_pet()
     {
-        //
         return response()->json([
             'status' => '資料擷取成功',
             'req' => $this->user->RearingPet(),

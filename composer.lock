@@ -4,8 +4,91 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< Updated upstream
     "content-hash": "2551422dc68ac31a61f957a73ff4c6bf",
+=======
+    "content-hash": "aa6dccefda973208824be9eb1bbea530",
+>>>>>>> Stashed changes
     "packages": [
+        {
+            "name": "barryvdh/laravel-cors",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fruitcake/laravel-cors.git",
+                "reference": "7c036ec08972d8d5d9db637e772af6887828faf5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fruitcake/laravel-cors/zipball/7c036ec08972d8d5d9db637e772af6887828faf5",
+                "reference": "7c036ec08972d8d5d9db637e772af6887828faf5",
+                "shasum": ""
+            },
+            "require": {
+                "fruitcake/php-cors": "^1.2",
+                "illuminate/contracts": "^6|^7|^8|^9",
+                "illuminate/support": "^6|^7|^8|^9",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "laravel/framework": "^6|^7.24|^8",
+                "orchestra/testbench-dusk": "^4|^5|^6|^7",
+                "phpunit/phpunit": "^9",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Fruitcake\\Cors\\CorsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fruitcake\\Cors\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fruitcake",
+                    "homepage": "https://fruitcake.nl"
+                },
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application",
+            "keywords": [
+                "api",
+                "cors",
+                "crossdomain",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/fruitcake/laravel-cors/issues",
+                "source": "https://github.com/fruitcake/laravel-cors/tree/v3.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://fruitcake.nl",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/barryvdh",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-02-23T14:53:22+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.10.2",
@@ -2181,7 +2264,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2022-10-28T22:51:32+00:00"
+=======
+            "time": "2022-08-01T11:03:24+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "phpoption/phpoption",
@@ -5776,8 +5863,13 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< Updated upstream
                 "url": "https://api.github.com/repos/laravel/breeze/zipball/e1816890159f7c772066cce0317d2b54904b701f",
                 "reference": "e1816890159f7c772066cce0317d2b54904b701f",
+=======
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/91ae7b749e9b3562355a78f945b4ee71153153f6",
+                "reference": "91ae7b749e9b3562355a78f945b4ee71153153f6",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -8023,5 +8115,5 @@
         "php": "^8.0.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SharedService
 {
-    //
+    // 共養首頁
     public function getshared()
     {
         $shared = DB::select('SELECT a.id,a.pet_id,b.user_id,d.location,b.name,b.variety,b.size,b.sex,count(e.user_id)+1 as headcount
