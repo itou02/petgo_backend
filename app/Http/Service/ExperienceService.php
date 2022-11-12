@@ -49,6 +49,7 @@ class ExperienceService
                 'experiences.id',
                 'experiences.start_date',
                 'experiences.end_date',
+                'pets.img',
                 'pets.name',
                 'pets.variety',
                 'pets.size',
@@ -75,6 +76,7 @@ class ExperienceService
                 'users.name AS userName',
                 DB::raw('CONCAT(SUBSTR(locations.location, 1, 3), ", ", SUBSTR(locations.location, 4, 10)) AS locations'),
             )
+            ->where('pets.id', '=', $id)
             ->where('experiences.user_id', '=', NULL)
             ->where('experiences.start_date', '>=', Carbon::today())
             ->get();
