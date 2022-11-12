@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Models\User;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -47,7 +46,6 @@ class AuthenticatedSessionController extends Controller
 
             DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
             
-            // return redirect()->away('http://localhost:3000');
             return response()->json(['status' => true,
             'login_data' => ['userToken' => $token],
             'user' => Auth::user(),
@@ -87,7 +85,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return response()->json([
-        'status' => '登出成功',
+        'status' => '登出成功'
         ]);
 
         //return redirect('/');
