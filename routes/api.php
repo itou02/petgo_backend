@@ -32,13 +32,9 @@ Route::get('csrf_token', function () { // 測試取csrftoken
     ]);
 });
 
-Route::post('getarea', [AnotherController::class, 'getareas']); // 地區下拉
+Route::post('getarea',[AnotherController::class, 'getareas']);//地區下拉
 
-// 體驗
-Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗 OK
-Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
-
-Route::middleware('guest')->group(function () { ///////////////////////////////////////////////////遊客
+Route::middleware('guest')->group(function () {///////////////////////////////////////////////////遊客
     // 頁面測試
     Route::get('test/{id}',  function () {
         dd('ret');
@@ -51,9 +47,9 @@ Route::middleware('guest')->group(function () { ////////////////////////////////
     // 使用者
     Route::patch('forget/revise/{id}', [UserController::class, 'password_revise']); // 修改密碼
 
-    // // 體驗
-    // Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗
-    // Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
+    // 體驗
+    Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗
+    Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
 });
 
 Route::middleware('auth')->group(function () { ///////////////////////////////////////////////////會員
@@ -72,7 +68,7 @@ Route::middleware('auth')->group(function () { /////////////////////////////////
     // Route::get();
 
     // 寵物
-    Route::get('pet-list', [PetController::class, 'pet_list']); // 寵物清單 還沒修改好版面先空著
+    Route::get('pet-list', [PetController::class, 'pet_list']); // 寵物清單
 
     // 體驗
     Route::get('experience/experiencer-illustrate/card/ex-pet-detail/ex-form', [ExperienceController::class, 'basic_info']); // 體驗申請顯示(401)

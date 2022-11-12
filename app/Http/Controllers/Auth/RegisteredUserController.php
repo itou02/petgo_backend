@@ -39,16 +39,41 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        if ($x->fails())
+        {
+            $messages = $x->messages();
+            return $messages;
+        }
+        
+        $location = $request->location_a . $request->location_b;
+
+        $comment = DB::select('SELECT *
+        FROM locations
+        WHERE location = ?', [$location]);
+        $location_id = $comment[0]->id;
+
+        $uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
+
         $user = User::create([
+            'id' => $uuid,
             'name' => $request->name,
+            'sex' => $request->sex,
+            'phone' => $request->phone,
+            'birth' => $request->date,
             'email' => $request->email,
+            'location_id' => $location_id,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return response()->json([
+            'status' => '成功',
+            'user' => $user,
+        ]);
+
+        // return redirect(RouteServiceProvider::HOME);
     }
 }

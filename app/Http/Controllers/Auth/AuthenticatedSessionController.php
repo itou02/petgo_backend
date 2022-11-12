@@ -28,11 +28,43 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // 認證通過...
+            $request->session()->regenerate();
+            do {
+                $token = Str::random(15);
+                $tokenCheck = User::where('remember_token', $token)->first();
+                if (isset($tokenCheck)) {
+                    $sameToken = true;
+                } else {
+                    $sameToken = false;
+                }
+            } while ($sameToken);
 
-        $request->session()->regenerate();
+            DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
+            
+            return response()->json(['status' => true,
+            'login_data' => ['userToken' => $token],
+            'user' => Auth::user(),
+            'csrftoken' => csrf_token(),
+            'session' =>session()], 200);
+        } else {
+            return response()->json([
+                'status' => 'false',
+            ]);
+        }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // $request->authenticate();
+
+        // $request->session()->regenerate();
+
+        // return response()->json([
+        //     'status' => '登錄成功',
+        //     'auth' => Auth::user(),
+        //     'csrf_token' => csrf_token(),
+        // ]);
+
+        // return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**
@@ -49,6 +81,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return response()->json([
+        'status' => '登出成功'
+        ]);
+
+        //return redirect('/');
     }
 }
+

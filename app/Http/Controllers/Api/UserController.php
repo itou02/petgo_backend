@@ -85,7 +85,7 @@ class UserController extends Controller
     }
 
     // 會員資料 - 修改密碼
-    public function password_reset(Request $request)
+    public function password_reset(Request $request,$id)
     {
         // dd($request, $id);
         if ($request->confirm != $request->password) {
