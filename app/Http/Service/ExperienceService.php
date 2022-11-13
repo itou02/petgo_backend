@@ -66,7 +66,7 @@ class ExperienceService
     // 查看詳細
     public function getExperienceDetail($id)
     {
-        $experiences = DB::table('experiences')
+        $detail = DB::table('experiences')
             ->join('pets', 'experiences.pet_id', '=', 'pets.id')
             ->join('users', 'pets.user_id', '=', 'users.id')
             ->join('locations', 'users.location_id', '=', 'locations.id')
@@ -76,24 +76,31 @@ class ExperienceService
                 'users.name AS userName',
                 DB::raw('CONCAT(SUBSTR(locations.location, 1, 3), ", ", SUBSTR(locations.location, 4, 10)) AS locations'),
             )
-            ->where('pets.id', '=', $id)
+            ->where('experiences.id', '=', $id)
             ->where('experiences.user_id', '=', NULL)
             ->where('experiences.start_date', '>=', Carbon::today())
             ->get();
-        return $experiences;
+        return $detail;
     }
 
     // 查看詳細 寵物歷史評論
     public function pastComment($id)
     {
-        $experiences = DB::table('experiences')
+        $petID = DB::table('experiences')
+            ->select(
+                'pet_id',
+            )
+            ->where('id', '=', $id)
+            ->get();
+        $num = $petID[0]->pet_id;
+        $comments = DB::table('experiences')
             ->select(
                 'comment',
             )
-            ->where('pet_id', '=', $id)
+            ->where('pet_id', '=', $num)
             ->whereNotNull('experiences.user_id')
             ->get();
-        return $experiences;
+        return $comments;
     }
 
     // 體驗搜尋
