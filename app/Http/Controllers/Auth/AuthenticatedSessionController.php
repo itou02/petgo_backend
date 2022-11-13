@@ -45,12 +45,14 @@ class AuthenticatedSessionController extends Controller
             } while ($sameToken);
 
             DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
-            
-            return response()->json(['status' => true,
-            'login_data' => ['userToken' => $token],
-            'user' => Auth::user(),
-            'csrftoken' => csrf_token(),
-            'session' =>session()], 200);
+
+            return response()->json([
+                'status' => true,
+                'login_data' => ['userToken' => $token],
+                'user' => Auth::user(),
+                'csrftoken' => csrf_token(),
+                'session' => session()
+            ], 200);
         } else {
             return response()->json([
                 'status' => 'false',
@@ -85,7 +87,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return response()->json([
-        'status' => '登出成功'
+            'status' => '登出成功'
         ]);
 
         //return redirect('/');

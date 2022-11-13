@@ -881,7 +881,7 @@ class LocationsSeeder extends Seeder
         ]);
 
         $Locations = Location::create([
-            'location' => '臺南市那瑪夏區',
+            'location' => '高雄市那瑪夏區',
         ]);
 
         $Locations = Location::create([

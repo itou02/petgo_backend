@@ -5,36 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Service\LoctaionService;
-use App\Http\Service\SharedService;
-
-class SharedController extends Controller
+class AdoptionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    protected $location;
-    protected $shared;
-
-    public function __construct()
-    {
-        $this->location = new LoctaionService();
-        $this->shared = new SharedService();
-    }
-
-    // 共養首頁
     public function index()
     {
         //
-        return response()->json([
-            'status' => 'true',
-            'citys' => $this->location->getcitys(),
-            'area' => $this->location->getareas(),
-            'shared' => $this->shared->getshared(),
-        ], 200);
     }
 
     /**
@@ -57,13 +37,6 @@ class SharedController extends Controller
     public function show($id)
     {
         //
-
-        return response()->json([ //還沒改完
-            'status' => 'true',
-            'pets' => $this->location->getcitys(),
-            'shared' => $this->location->getareas(),
-            'sharer' => $this->shared->getshared(),
-        ], 200);
     }
 
     /**
