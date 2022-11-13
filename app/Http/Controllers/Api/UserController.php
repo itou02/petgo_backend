@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use App\Http\Service\UserService;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -76,7 +77,8 @@ class UserController extends Controller
     public function user_info()
     {
         $result = $this->user->UserInfo();
-        $diff = Carbon::now()->diff($result->birth);
+        $birth = Auth::user()->birth;
+        $diff = Carbon::now()->diff($birth);
         $age = $diff->y;
         if (!$result) {
             return response()->json(['status' => "No such user."], 400);
@@ -91,9 +93,6 @@ class UserController extends Controller
     // 會員資料 - 修改
     public function edit_user_info($request)
     {
-        $userInfo = $this->user->UserInfo();
-        $diff = Carbon::now()->diff($userInfo->birth);
-        $age = $diff->y;
         $result = $this->user->EditUserInfo($request);
         if (!$result) {
             return response()->json(['status' => "Update failed."], 400);
@@ -101,7 +100,6 @@ class UserController extends Controller
         return response()->json([
             'status' => 'Update completed.',
             'req' => $result,
-            'age' => $age
         ], 200);
     }
 
