@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\DB;
+use ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+
 
 class RegisteredUserController extends Controller
 {
@@ -33,9 +38,12 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+
+        $x = Validator::make($request->all(),[
+            'name' => ['required','string','max:255'],
+            'sex' => ['required','string','max:255'],
+            'phone' => ['required','string','max:255'],
+            'email' => ['required','string','email','max:255','unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -71,7 +79,6 @@ class RegisteredUserController extends Controller
 
         return response()->json([
             'status' => '成功',
-            'user' => $user,
         ]);
 
         // return redirect(RouteServiceProvider::HOME);

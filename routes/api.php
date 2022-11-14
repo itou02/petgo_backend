@@ -78,5 +78,4 @@ Route::middleware('auth')->group(function () { /////////////////////////////////
 
     // 共養
     Route::get('share-already-login', [SharedController::class, 'index']); // 共養首頁
-
 });

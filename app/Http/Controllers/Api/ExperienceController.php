@@ -112,7 +112,7 @@ class ExperienceController extends Controller
         //
         $detail = $this->experience->getExperienceDetail($id);
         $comments = $this->experience->pastComment($id);
-        dd($detail, $comments);
+        // dd($detail, $comments);
         if (!$detail) {
             return response()->json(['status' => "Query failed."], 400);
         }
