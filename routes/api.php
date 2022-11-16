@@ -38,6 +38,10 @@ Route::get('experience/experiencer-illustrate/card', [ExperienceController::clas
 Route::get('experience/experiencer-illustrate/card/ex-pet-detail/{id}', [ExperienceController::class, 'get_experience_detail']); // 查看詳細
 // Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
 
+//共養
+Route::get('share-already-login', [SharedController::class, 'index']); // 共養首頁
+
+
 // 地區下拉
 Route::post('getarea', [AnotherController::class, 'getareas']);
 
