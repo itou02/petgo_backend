@@ -32,15 +32,16 @@ class SharedController extends Controller
         $this->user = new UserService();
     }
 
+    // 共養首頁
     public function index()
     {
         //
         return response()->json([
-            'status' =>'true',
+            'status' => 'true',
             'citys' => $this->location->getcitys(),
             'area' => $this->location->getareas(),
             'shared' => $this->shared->getshared(),
-        ],200);
+        ], 200);
     }
 
     /**
