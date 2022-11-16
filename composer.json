@@ -11,7 +11,10 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "sven/artisan-view": "^3.5"
+        "nesbot/carbon": "^2.63",
+        "php-open-source-saver/jwt-auth": "^2.0",
+        "sven/artisan-view": "^3.5",
+        "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

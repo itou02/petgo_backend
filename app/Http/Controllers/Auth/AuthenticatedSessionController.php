@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class AuthenticatedSessionController extends Controller
@@ -45,13 +46,13 @@ class AuthenticatedSessionController extends Controller
                 }
             } while ($sameToken);
 
-            DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
+            DB::table('users')->where('email', $request->email)->update(['remember_token' => $token,'updated_at' => Carbon::now()]);
             
             return response()->json(['status' => true,
-            'login_data' => ['userToken' => $token],
-            'user' => Auth::user(),
+            'userToken' => $token,
+            'user' => DB::table('users')->where('email', $request->email)->get(),
             'csrftoken' => csrf_token(),
-            'session' =>session()], 200);
+        ], 200);
         } else {
             return response()->json([
                 'status' => 'false',
@@ -79,6 +80,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+        $id = $request['userData']->id;
+        DB::table('users')->where('id', $id)->update(['remember_token' => '','updated_at' => Carbon::now()]);
+        
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Service\ApplicationSharedService;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
-use App\Http\Service\PetService;
-
-class PetController extends Controller
+class ApplicationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,15 +14,21 @@ class PetController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $pet;
+    protected $ASS;
+    
     public function __construct()
     {
-        $this->pet = new PetService();
+        $this->ASS = new ApplicationSharedService();
     }
 
     public function index()
     {
         //
+        return response()->json([
+            'status'=> 'success',
+            'shared'=>$this->ASS->getApplicationShared(),
+            // 'experience'=>,
+        ]);
     }
 
     /**
@@ -72,25 +74,5 @@ class PetController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    // 寵物清單
-    public function pet_list(Request $request)
-    {
-
-        $result = $this->pet->petList($request['userData']);
-        // dd($result);
-        if (!$result) {
-            return response()->json(['status' => "There are no fur babies here."], 400);
-        }
-        return response()->json([
-            'status' => 'These are your fur babies.',
-            'req' => $result,
-        ], 200);
-    }
-
-    // 寵物詳細資料
-    public function pet_detail()
-    {
     }
 }

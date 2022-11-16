@@ -14,10 +14,11 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $id = Auth::user()->id;
+
+        $id = $request['userData']->id;
         $comment = DB::select('SELECT a.name , a.img , b.user_id , b.comment , b.updated_at
         from pets as a
         INNER JOIN experiences as b on a.id = b.pet_id

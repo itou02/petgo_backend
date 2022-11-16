@@ -25,9 +25,9 @@ class UserService
     // }
 
     // 會員資料 - 個人
-    public function UserInfo()
+    public function UserInfo($request)
     {
-        return Auth::user();
+        return $request;
     }
 
     // 申請 - 基本資料
@@ -49,7 +49,7 @@ class UserService
     // 會員資料 - 修改密碼
     public function ResetPassword($request)
     {
-        $id = Auth::user()->id;
+        $id = $request['userData']->id;
         $user = User::findOrFail($id);
         if (Hash::check($request->old, $user->password)) {
             $result = User::where('id', $id)
@@ -74,9 +74,37 @@ class UserService
     }
 
     //取自身經歷內容
-    public function RearingPet()
+    public function RearingPet($request)
     {
-        $id = Auth::user()->id;
+        $id = $request['userData']->id;
+
+        $part1 = DB::select('SELECT *
+        from basic_infos
+        WHERE user_id = ?',[$id]);
+        
+        $part3 = DB::select('SELECT id , years , amount , animals , space , thoughts
+        from users
+        WHERE id = ?',[$id]);
+
+        $part4 = DB::select('SELECT *
+        from resume_photos
+        WHERE user_id = ?',[$id]);
+
+        return response()->json([
+            'part1' => $part1,
+            'part2' => [
+                'part2.1' => $this->pet->petList($request['userData']->id),
+                'part2.2' => $this->pet->petList_experience($request['userData']->id),
+                'part2.3' => $this->pet->petList_shared($request['userData']->id),
+            ],
+            'part3' => $part3,
+            'part4' => $part4,
+        ]);
+    }
+
+    //透過id取自身經歷內容(為了取非當前使用者)
+    public function getRearingPet($id)
+    {
 
         $part1 = DB::select('SELECT *
         from basic_infos
@@ -94,9 +122,9 @@ class UserService
         return response()->json([
             'part1' => $part1,
             'part2' => [
-                'part2.1' => $this->pet->petList(),
-                'part2.2' => $this->pet->petList_experience(),
-                'part2.3' => $this->pet->petList_shared(),
+                'part2.1' => $this->pet->petList($id),
+                'part2.2' => $this->pet->petList_experience($id),
+                'part2.3' => $this->pet->petList_shared($id),
             ],
             'part3' => $part3,
             'part4' => $part4,

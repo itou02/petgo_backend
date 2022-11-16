@@ -75,4 +75,9 @@ class ExperienceService
             ->distinct()->get();
         return $varieties;
     }
+
+    //體驗 我的申請
+    public function getMyapplication()
+    {
+    }
 }
