@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::middleware('token')->group(function () {
+//     Route::get('/dashboard', function (Request $request) {
+//         return response()->json([
+//             'status' => '已登錄',
+//             'user' =>$request['userData']->name,
+//         ]);
+//     });
+// });
 
 require __DIR__.'/auth.php';

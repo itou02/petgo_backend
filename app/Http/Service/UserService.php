@@ -109,6 +109,9 @@ class UserService
         $part4 = DB::select('SELECT *
         from resume_photos
         WHERE user_id = ?',[$id]);
+        if($part4 == null){
+            $part4 = "尚未有照片";
+        }
 
         return response()->json([
             'part1' => $part1,
@@ -137,6 +140,9 @@ class UserService
         $part4 = DB::select('SELECT *
         from resume_photos
         WHERE user_id = ?', [$id]);
+        if($part4 == null){
+            $part4 = "尚未有照片";
+        }
 
         return response()->json([
             'part1' => $part1,
