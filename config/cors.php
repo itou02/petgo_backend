@@ -22,7 +22,6 @@ return [
      * Example: ['api/*']
      */
     'paths' => ['*'],
-
     /*
     * Matches the request method. `['*']` allows all methods.
     */

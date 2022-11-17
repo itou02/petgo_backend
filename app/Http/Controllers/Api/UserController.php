@@ -74,9 +74,10 @@ class UserController extends Controller
     }
 
     // 會員資料
-    public function user_info()
+    public function user_info(Request $request)
     {
-        $result = $this->user->UserInfo();
+        
+        $result = $this->user->UserInfo($request['userData']);
         $birth = Auth::user()->birth;
         $diff = Carbon::now()->diff($birth);
         $age = $diff->y;
@@ -106,7 +107,6 @@ class UserController extends Controller
     // 會員資料 - 修改密碼
     public function password_reset(Request $request)
     {
-        // dd($request);
         if ($request->confirm != $request->password) {
             return response()->json(['status' => "The two passwords are not the same."], 400);
         }
@@ -136,12 +136,13 @@ class UserController extends Controller
         ], 200);
     }
 
-    // 取自身經歷
-    public function rearing_pet()
+    //取自身經歷
+    public function rearing_pet(Request $request)
     {
         return response()->json([
             'status' => '資料擷取成功',
-            'req' => $this->user->RearingPet(),
+            'req' => $this->user->RearingPet($request),
         ], 200);
     }
+    
 }

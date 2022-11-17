@@ -75,9 +75,10 @@ class PetController extends Controller
     }
 
     // 寵物清單
-    public function pet_list()
+    public function pet_list(Request $request)
     {
-        $result = $this->pet->petList();
+
+        $result = $this->pet->petList($request['userData']);
         // dd($result);
         if (!$result) {
             return response()->json(['status' => "There are no fur babies here."], 400);

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\User;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -44,15 +46,13 @@ class AuthenticatedSessionController extends Controller
                 }
             } while ($sameToken);
 
-            DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
-
-            return response()->json([
-                'status' => true,
-                'login_data' => ['userToken' => $token],
-                'user' => Auth::user(),
-                'csrftoken' => csrf_token(),
-                'session' => session()
-            ], 200);
+            DB::table('users')->where('email', $request->email)->update(['remember_token' => $token,'updated_at' => Carbon::now()]);
+            
+            return response()->json(['status' => true,
+            'userToken' => $token,
+            'user' => DB::table('users')->where('email', $request->email)->get(),
+            'csrftoken' => csrf_token(),
+        ], 200);
         } else {
             return response()->json([
                 'status' => 'false',
@@ -80,6 +80,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+        $id = $request['userData']->id;
+        DB::table('users')->where('id', $id)->update(['remember_token' => '','updated_at' => Carbon::now()]);
+        
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
@@ -93,4 +96,3 @@ class AuthenticatedSessionController extends Controller
         //return redirect('/');
     }
 }
-

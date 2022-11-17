@@ -196,6 +196,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Fruitcake\Cors\CorsServiceProvider::class,
+
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        
     ],
 
     /*

@@ -10,19 +10,20 @@ use Illuminate\Support\Facades\Auth;
 class PetService
 {
     // 我的寵物清單
-    public function petList()
+    public function petList($id)
     {
-        $id = Auth::user()->id;
         $pet = DB::table('pets')->where('user_id', $id)->get();
-        if ($pet == null)
-            $pet = "No pets have been added yet.";
+    
+        if($pet->toArray() == null){
+            $pet = "還未新增寵物寵物";
+        }
+
         return $pet;
     }
 
-    // 我體驗過的寵物
-    public function petList_experience()
+    //我體驗過的寵物
+    public function petList_experience($id)
     {
-        $id = Auth::user()->id;
         $pet = DB::select('SELECT a.pet_id , b.name, b.variety,b.age,b.size,a.start_date,a.end_date,a.user_id
         from experiences as a
         INNER JOIN pets as b on a.pet_id = b.id
@@ -33,10 +34,9 @@ class PetService
         return $pet;
     }
 
-    // 我共養過的寵物
-    public function petList_shared()
+    //我共享過的寵物
+    public function petList_shared($id)
     {
-        $id = Auth::user()->id;
         $pet = DB::select('SELECT b.adoption_id , a.pet_id , c.name, c.variety , c.age , c.size , b.created_at , b.updated_at , b.user_id
         from adoptions as a
         INNER JOIN adopters as b on a.id = b.adoption_id

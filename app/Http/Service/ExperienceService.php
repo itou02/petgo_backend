@@ -94,10 +94,13 @@ class ExperienceService
             ->get();
         $num = $petID[0]->pet_id;
         $comments = DB::table('experiences')
+            ->join('users', 'experiences.user_id', '=', 'users.id')
             ->select(
-                'comment',
+                'users.img',
+                'users.name',
+                'experiences.comment',
             )
-            ->where('pet_id', '=', $num)
+            ->where('experiences.pet_id', '=', $num)
             ->whereNotNull('experiences.user_id')
             ->get();
         return $comments;
@@ -134,5 +137,10 @@ class ExperienceService
             ->get();
         dd($experiences);
         return $experiences;
+    }
+
+    //體驗 我的申請
+    public function getMyapplication()
+    {
     }
 }
