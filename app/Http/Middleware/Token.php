@@ -30,7 +30,7 @@ class Token
             }
             return $next($request);
         } else {
-            return response()->json(['status' => false, 'error' => 'token false'], 401);
+            return response()->json(['status' => false, 'error' => 'token false 123'], 401);
         }
     }
 }

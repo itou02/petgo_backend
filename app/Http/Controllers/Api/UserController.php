@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         
         $result = $this->user->UserInfo($request['userData']);
-        $birth = Auth::user()->birth;
+        $birth = $request['userData']->birth;
         $diff = Carbon::now()->diff($birth);
         $age = $diff->y;
         if (!$result) {
