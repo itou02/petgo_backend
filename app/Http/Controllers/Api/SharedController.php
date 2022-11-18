@@ -61,19 +61,23 @@ class SharedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
         //
-        $user_id = Auth::id();
-        $x = $this->shared->getMain_Sharer($id);
+        $user_id = $request['userData']->id;
+        $x = $this->shared->getMain_Sharer($id)[0]->id;
         $y = $this->shared->getSharer($id);
         $button = "按鈕：顯示!";
-        for($i=0;$i<count((array)$y);$i++){
-            if($user_id ==  $x || $user_id == $y[$i]->user_id){
-                $button = "按鈕：不顯示!";
-            }
-        }    
-    
+        if($user_id ==  $x){
+            $button = "按鈕：不顯示!";
+        }elseif($y != '目前無共養人'){
+            for($i=0;$i<count((array)$y);$i++){
+                if($user_id == $y[$i]->user_id){
+                    $button = "按鈕：不顯示!";
+                }
+            }   
+        }
+        
         return response()->json([//還沒改完
             'status' =>'success',
             'pets' => $this->pet->petDetail($id),//等品安
