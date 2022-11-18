@@ -10,7 +10,7 @@ class SharedService
     //
     public function getshared()//共養畫面共養寵物列表
     {
-        $shared = DB::select('SELECT a.id,a.pet_id,b.user_id,d.location,b.name,b.variety,b.size,b.sex,count(e.user_id)+1 as headcount
+        $shared = DB::select('SELECT a.id,a.pet_id,b.img,b.user_id,d.location,b.name,b.variety,b.size,b.sex,count(e.user_id)+1 as headcount
         from adoptions as a
         INNER JOIN pets as b on a.pet_id = b.id
         INNER JOIN users as c on b.user_id = c.id
@@ -40,7 +40,10 @@ class SharedService
 
     public function getSharer($id)//次共養者資訊
     {
-        $sharer = DB::table('adopters')->where('adoption_id',$id)->get();
+        if(!$sharer = DB::table('adopters')->where('adoption_id','=',$id)->first()){
+            return '目前無共養人';
+        }
+        $sharer = DB::table('adopters')->where('adoption_id','=',$id)->get();
         return $sharer;
     }
 
