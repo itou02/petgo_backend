@@ -78,23 +78,13 @@ Route::middleware('auth')->group(function () { /////////////////////////////////
 
     // 使用者
     // Route::patch('member/reset-password/', [UserController::class, 'edit_user_info']); // 會員資料修改
-    Route::get('myapplication',[ApplicationController::class,'index']);//申請列表
-
-    // 寵物
-    Route::get('pet-list/pet-filled/{id}', [PetController::class, 'pet_detail']); // 寵物清單 查看詳細
+    
     // Route::post('pet-list', [PetController::class, 'add_pet']); // 寵物清單 新增寵物
-    Route::delete('pet-list/{id}', [PetController::class, 'delete_pet']); // 寵物清單 刪除寵物
-
+    
     // 體驗
     // Route::get('experience/experiencer-illustrate/card/ex-pet-detail/ex-form', [ExperienceController::class, 'basic_info']); // 體驗申請
-
-    
-
-
-    
-
 });
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('register', [RegisteredUserController::class, 'store']);//註冊
 Route::post('login', [AuthenticatedSessionController::class, 'store']);//登錄
 
@@ -112,9 +102,13 @@ Route::middleware('token')->group(function () {
     Route::patch('member/reset-password/', [UserController::class, 'password_reset']); // 更改密碼
     Route::get('comment',[CommentController::class, 'index']);//我的評論 (顯示401)
     Route::get('rearing-pet',[UserController::class, 'rearing_pet']);//自身經歷讀取
+    Route::get('myapplication',[ApplicationController::class,'index']);//申請列表
+
 
     // 寵物
     Route::get('pet-list', [PetController::class, 'pet_list']); // 寵物清單
+    Route::get('pet-list/pet-filled/{id}', [PetController::class, 'pet_detail']); // 寵物清單 查看詳細
+    Route::delete('pet-list/{id}', [PetController::class, 'delete_pet']); // 寵物清單 刪除寵物
 
     //共養
     Route::get('share-already/share-pet-detail/{id}',[SharedController::class, 'show']);//共養首頁->查看

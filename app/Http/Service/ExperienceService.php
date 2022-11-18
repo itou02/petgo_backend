@@ -60,6 +60,7 @@ class ExperienceService
             ->where('experiences.user_id', '=', NULL)
             ->where('experiences.start_date', '>=', Carbon::today())
             ->get();
+            dd($experiences);
         return $experiences;
     }
 

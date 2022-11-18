@@ -19,6 +19,9 @@ class ExperienceController extends Controller
      */
 
     protected $experience;
+    protected $user;
+    protected $pet;
+
     public function __construct()
     {
         $this->pet = new PetService();
@@ -138,10 +141,10 @@ class ExperienceController extends Controller
     }
 
     // 體驗申請 - 顯示
-    public function basic_info()
+    public function basic_info($request)
     {
         $basicInfo = $this->user->ApplyBasicInfo();
-        $user = $this->user->UserInfo();
+        $user = $this->user->UserInfo($request);
         $diff = Carbon::now()->diff($user->birth);
         $age = $diff->y;
         dd($basicInfo, $age);

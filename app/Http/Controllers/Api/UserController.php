@@ -76,11 +76,11 @@ class UserController extends Controller
     // 會員資料
     public function user_info(Request $request)
     {
-        
-        $result = $this->user->UserInfo($request['userData']);
-        $birth = Auth::user()->birth;
+        $result = $this->user->UserInfo($request);
+        $birth = $request['userData']->birth;
         $diff = Carbon::now()->diff($birth);
         $age = $diff->y;
+
         if (!$result) {
             return response()->json(['status' => "No such user."], 400);
         }
