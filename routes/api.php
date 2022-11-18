@@ -24,7 +24,7 @@ use App\Http\Controllers\Api\ApplicationController;
 |
 */
 
-//取csrftoken ok
+//取csrftoken
 Route::get('csrf_token' ,function () {
     return response()->json([
         'csrftoken' => csrf_token(),
@@ -38,19 +38,15 @@ Route::get('permission_denied' ,function () {
     ]);
 })->name('permission_denied');
 
-// 首頁 ok
-Route::get('/', [ExperienceController::class, 'get_comment']); // 評論 ok
+// 首頁
+Route::get('/', [ExperienceController::class, 'get_comment']); // 評論 OK
 
 // 體驗
-Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗 ok
-Route::get('experience/experiencer-illustrate/card/ex-pet-detail/{id}', [ExperienceController::class, 'get_experience_detail']); // 查看詳細 ok
+Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗
+Route::get('experience/experiencer-illustrate/card/ex-pet-detail/{id}', [ExperienceController::class, 'get_experience_detail']); // 查看詳細
 // Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
 
-//共養
-Route::get('share-already-login', [SharedController::class, 'index']); // 共養首頁
-
-
-// 地區下拉 ok
+// 地區下拉
 Route::post('getarea', [AnotherController::class, 'getareas']);
 
 Route::middleware('guest')->group(function () { //////////////////////////////////////////////////遊客
@@ -74,7 +70,7 @@ Route::middleware('guest')->group(function () { ////////////////////////////////
     // Route::get();
 
     
-Route::middleware('auth')->group(function () { //會員
+Route::middleware('auth')->group(function () { //////////////////////////////////////////////////會員
     // 頁面測試
     Route::get('TEST', function () {
         dd("Testing");
@@ -82,25 +78,17 @@ Route::middleware('auth')->group(function () { //會員
 
     // 使用者
     // Route::patch('member/reset-password/', [UserController::class, 'edit_user_info']); // 會員資料修改
-    Route::get('myapplication',[ApplicationController::class,'index']);//申請列表
-
-    // 寵物
+    
     // Route::post('pet-list', [PetController::class, 'add_pet']); // 寵物清單 新增寵物
-
+    
     // 體驗
     // Route::get('experience/experiencer-illustrate/card/ex-pet-detail/ex-form', [ExperienceController::class, 'basic_info']); // 體驗申請
-
-    
-
-
-    
-
 });
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('register', [RegisteredUserController::class, 'store']);//註冊
-Route::post('login', [AuthenticatedSessionController::class, 'store']);//登錄 ok
+Route::post('login', [AuthenticatedSessionController::class, 'store']);//登錄
 
-Route::get('share-already-login',[SharedController::class, 'index']);//共養首頁 缺塞進去
+Route::get('share-already-login',[SharedController::class, 'index']);//共養首頁
 
 Route::middleware('token')->group(function () {
     // 頁面測試
@@ -112,8 +100,10 @@ Route::middleware('token')->group(function () {
                 ->name('logout');//
     Route::get('member', [UserController::class, 'user_info']); // 會員資料
     Route::patch('member/reset-password/', [UserController::class, 'password_reset']); // 更改密碼
-    Route::get('comment',[CommentController::class, 'index']);//我的評論 ok
+    Route::get('comment',[CommentController::class, 'index']);//我的評論 (顯示401)
     Route::get('rearing-pet',[UserController::class, 'rearing_pet']);//自身經歷讀取
+    Route::get('myapplication',[ApplicationController::class,'index']);//申請列表
+
 
     // 寵物
     Route::get('pet-list', [PetController::class, 'pet_list']); // 寵物清單

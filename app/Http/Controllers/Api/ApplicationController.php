@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Service\ApplicationSharedService;
+use App\Http\Service\ApplicationService;
 
 class ApplicationController extends Controller
 {
@@ -18,15 +18,15 @@ class ApplicationController extends Controller
     
     public function __construct()
     {
-        $this->ASS = new ApplicationSharedService();
+        $this->ASS = new ApplicationService();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         //
         return response()->json([
             'status'=> 'success',
-            'shared'=>$this->ASS->getApplicationShared(),
+            'shared'=>$this->ASS->getApplication($request),
             // 'experience'=>,
         ]);
     }

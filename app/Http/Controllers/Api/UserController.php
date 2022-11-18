@@ -81,6 +81,7 @@ class UserController extends Controller
         $birth = $request['userData']->birth;
         $diff = Carbon::now()->diff($birth);
         $age = $diff->y;
+
         if (!$result) {
             return response()->json(['status' => "No such user."], 400);
         }

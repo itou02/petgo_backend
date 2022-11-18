@@ -23,7 +23,7 @@ class UserService
     // 會員資料 - 個人
     public function UserInfo($request)
     {
-        return $request;
+        return $request['userData'];
     }
 
     // 申請 - 基本資料
