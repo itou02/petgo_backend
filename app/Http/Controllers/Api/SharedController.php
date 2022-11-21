@@ -80,7 +80,7 @@ class SharedController extends Controller
         
         return response()->json([//還沒改完
             'status' =>'success',
-            'pets' => $this->pet->petDetail($id),//等品安
+            'pets' => $this->pet->petDetail($id),//等品安   // ？等什麼？
             'shared' => $this->shared->getSharedForLook($id),
             'main_sharer' => $this->shared->getMain_Sharer($id),
             'sharer' => $this->shared->getSharer($id),

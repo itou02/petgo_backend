@@ -100,16 +100,16 @@ class UserService
 
         $part1 = DB::select('SELECT *
         from basic_infos
-        WHERE user_id = ?',[$id]);
-        
+        WHERE user_id = ?', [$id]);
+
         $part3 = DB::select('SELECT id , years , amount , animals , space , thoughts
         from users
-        WHERE id = ?',[$id]);
+        WHERE id = ?', [$id]);
 
         $part4 = DB::select('SELECT *
         from resume_photos
-        WHERE user_id = ?',[$id]);
-        if($part4 == null){
+        WHERE user_id = ?', [$id]);
+        if ($part4 == null) {
             $part4 = "尚未有照片";
         }
 
@@ -140,7 +140,7 @@ class UserService
         $part4 = DB::select('SELECT *
         from resume_photos
         WHERE user_id = ?', [$id]);
-        if($part4 == null){
+        if ($part4 == null) {
             $part4 = "尚未有照片";
         }
 
