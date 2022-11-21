@@ -81,7 +81,7 @@ class SharedController extends Controller
             }   
         }
         
-        return response()->json([//還沒改完
+        return response()->json([
             'status' =>'success',
             'pets' => $this->pet->petDetail($pet_id),
             'shared' => $this->shared->getSharedForLook($id),
