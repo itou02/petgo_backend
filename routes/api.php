@@ -83,8 +83,14 @@ Route::middleware('auth')->group(function () { /////////////////////////////////
     
     // 體驗
     // Route::get('experience/experiencer-illustrate/card/ex-pet-detail/ex-form', [ExperienceController::class, 'basic_info']); // 體驗申請
+
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
+Route::post('register', [RegisteredUserController::class, 'store']);//註冊
+Route::post('login', [AuthenticatedSessionController::class, 'store']);//登錄
+
+Route::get('share-already-login',[SharedController::class, 'index']);//共養首頁
+
 Route::post('register', [RegisteredUserController::class, 'store']);//註冊
 Route::post('login', [AuthenticatedSessionController::class, 'store']);//登錄
 
@@ -113,6 +119,7 @@ Route::middleware('token')->group(function () {
     //共養
     Route::get('share-already/share-pet-detail/{id}',[SharedController::class, 'show']);//共養首頁->查看
     Route::get('rearing-pet/sharer/{id}',[SharedController::class, 'sharershow']);//共養首頁->查看->共養人員(經歷)
+
 
 
 });
