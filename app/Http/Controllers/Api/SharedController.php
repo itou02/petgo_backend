@@ -69,12 +69,13 @@ class SharedController extends Controller
         $user_id = $request['userData']->id;
         $x = $this->shared->getMain_Sharer($id)[0]->id;
         $y = $this->shared->getSharer($id);
+
         $button = "按鈕：顯示!";
         if($user_id ==  $x){
             $button = "按鈕：不顯示!";
         }elseif($y != '目前無共養人'){
             for($i=0;$i<count((array)$y);$i++){
-                if($user_id == $y[$i]->user_id){
+                if($user_id == $y[$i]->id){
                     $button = "按鈕：不顯示!";
                 }
             }   
