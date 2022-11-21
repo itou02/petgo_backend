@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Service\LoctaionService;
 use App\Http\Service\SharedService;
@@ -64,6 +65,7 @@ class SharedController extends Controller
     public function show(Request $request,$id)
     {
         //
+        $pet_id = DB::table('adoptions')->where('id',$id)->first()->pet_id;
         $user_id = $request['userData']->id;
         $x = $this->shared->getMain_Sharer($id)[0]->id;
         $y = $this->shared->getSharer($id);
@@ -80,7 +82,7 @@ class SharedController extends Controller
         
         return response()->json([//還沒改完
             'status' =>'success',
-            'pets' => $this->pet->petDetail($id),//等品安
+            'pets' => $this->pet->petDetail($pet_id),
             'shared' => $this->shared->getSharedForLook($id),
             'main_sharer' => $this->shared->getMain_Sharer($id),
             'sharer' => $this->shared->getSharer($id),
