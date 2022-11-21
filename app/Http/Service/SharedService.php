@@ -4,6 +4,7 @@ namespace App\Http\Service;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class SharedService
 {
@@ -34,18 +35,49 @@ class SharedService
         ->join('pets', 'adoptions.pet_id', '=', 'pets.id')
         ->join('users', 'pets.user_id', '=', 'users.id')
         ->select('adoptions.id', 'pets.id','users.*')
-        ->where('adoptions.id',$id)->get();
+        ->where('adoptions.id',$id)->first();
+        
+        $location = DB::table('locations')->where('id',$sharer->location_id)->first()->location;
+        
+        $birth = $sharer->birth;
+        $diff = Carbon::now()->diff($birth);
+        $age = $diff->y;
 
-        return $sharer;
+        $sharer -> age = $age;
+        $sharer -> location = $location;
+
+        // dd(array($sharer));
+        return array($sharer);
     }
 
     public function getSharer($id)//次共養者資訊
-    {
+    { 
         if(!$sharer = DB::table('adopters')->where('adoption_id','=',$id)->first()){
             return '目前無共養人';
         }
         $sharer = DB::table('adopters')->where('adoption_id','=',$id)->get();
-        return $sharer;
+
+        $tatalSharer = array();
+        
+        for($i = 0 ; $i<=count($sharer)-1 ; $i++){
+            $id =$sharer[$i]->user_id;
+
+            $sharerInFor = DB::table('users')
+            ->where('id',$id)->first();
+
+            $location = DB::table('locations')->where('id',$sharerInFor->location_id)->first()->location;
+
+            $birth = $sharerInFor->birth;
+            $diff = Carbon::now()->diff($birth);
+            $age = $diff->y;
+
+            $sharerInFor -> age = $age;
+            $sharerInFor -> location = $location;
+
+            $tatalSharer = array_merge($tatalSharer,array($sharerInFor));
+            
+        }
+        return $tatalSharer;
     }
 
     public function getSharerIsMy($id)//看共養內是否有我
