@@ -15,7 +15,7 @@ class ApplicationController extends Controller
      */
 
     protected $ASS;
-    
+
     public function __construct()
     {
         $this->ASS = new ApplicationService();
@@ -25,8 +25,8 @@ class ApplicationController extends Controller
     {
         //
         return response()->json([
-            'status'=> 'success',
-            'shared'=>$this->ASS->getApplication($request),
+            'status' => 'success',
+            'shared' => $this->ASS->getApplication($request),
             // 'experience'=>,
         ]);
     }

@@ -144,5 +144,4 @@ class UserController extends Controller
             'req' => $this->user->RearingPet($request),
         ], 200);
     }
-    
 }
