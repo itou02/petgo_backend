@@ -78,12 +78,13 @@ Route::middleware('auth')->group(function () { /////////////////////////////////
 
     // 使用者
     // Route::patch('member/reset-password/', [UserController::class, 'edit_user_info']); // 會員資料修改
+    Route::get('myapplication', [ApplicationController::class, 'index']); //申請列表
 
+    // 寵物
     // Route::post('pet-list', [PetController::class, 'add_pet']); // 寵物清單 新增寵物
 
     // 體驗
     // Route::get('experience/experiencer-illustrate/card/ex-pet-detail/ex-form', [ExperienceController::class, 'basic_info']); // 體驗申請
-
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('register', [RegisteredUserController::class, 'store']); //註冊
