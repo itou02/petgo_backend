@@ -13,15 +13,13 @@ class PetService
     public function petList($id)
     {
         $pet = DB::table('pets')->where('user_id', $id)->get();
-    
-        if($pet->toArray() == null){
+        if ($pet->toArray() == null) {
             $pet = "還未新增寵物寵物";
         }
-
         return $pet;
     }
 
-    //我體驗過的寵物
+    // 我體驗過的寵物
     public function petList_experience($id)
     {
         $pet = DB::select('SELECT a.pet_id , b.name, b.variety,b.age,b.size,a.start_date,a.end_date,a.user_id

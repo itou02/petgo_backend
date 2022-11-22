@@ -728,6 +728,8 @@ class LocationsSeeder extends Seeder
             'location' => '雲林縣水林鄉',
         ]);
 
+        
+
         $Locations = Location::create([
             'location' => '高雄市楠梓區',
         ]);

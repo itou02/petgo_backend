@@ -60,7 +60,6 @@ class ExperienceService
             ->where('experiences.user_id', '=', NULL)
             ->where('experiences.start_date', '>=', Carbon::today())
             ->get();
-            // dd($experiences);
         return $experiences;
     }
 
@@ -100,6 +99,7 @@ class ExperienceService
                 'users.img',
                 'users.name',
                 'experiences.comment',
+                'experiences.updated_at'
             )
             ->where('experiences.pet_id', '=', $num)
             ->whereNotNull('experiences.user_id')
@@ -130,18 +130,12 @@ class ExperienceService
             )
             // ->where('experiences.user_id', '=', NULL)
             ->where('experiences.start_date', '>=', Carbon::today())
-            ->whereDate('experiences.start_date', '<=', "$request->date") // 雙引號
-            ->whereDate('experiences.end_date', '>=', "$request->date") // 雙引號
+            // ->whereDate('experiences.start_date', '<=', "$request->date") // 雙引號
+            // ->whereDate('experiences.end_date', '>=', "$request->date") // 雙引號
             ->where('location', 'like', '%' . $request->city . '%')
             ->where('location', 'like', '%' . $request->district . '%')
             ->where('pets.variety', 'like', '%' . $request->variety . '%')
             ->get();
-        dd($experiences);
         return $experiences;
-    }
-
-    //體驗 我的申請
-    public function getMyapplication()
-    {
     }
 }

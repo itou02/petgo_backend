@@ -46,13 +46,9 @@ class AuthenticatedSessionController extends Controller
                 }
             } while ($sameToken);
 
-            DB::table('users')->where('email', $request->email)->update(['remember_token' => $token,'updated_at' => Carbon::now()]);
-            
-            return response()->json(['status' => true,
-            'userToken' => $token,
-            'user' => DB::table('users')->where('email', $request->email)->get(),
-            'csrftoken' => csrf_token(),
-        ], 200);
+            DB::table('users')->where('email', $request->email)->update(['remember_token' => $token]);
+
+            return response()->json(['status' => true, 'userToken' => $token, 'user' => Auth::user(), 'session' => session()], 200);
         } else {
             return response()->json([
                 'status' => 'false',
