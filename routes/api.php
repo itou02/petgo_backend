@@ -42,10 +42,12 @@ Route::get('permission_denied', function () {
 // 首頁
 Route::get('/', [ExperienceController::class, 'get_comment']); // 評論 OK
 
+
+// Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
 // 體驗
 Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗
 Route::get('experience/experiencer-illustrate/card/ex-pet-detail/{id}', [ExperienceController::class, 'get_experience_detail']); // 查看詳細
-Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
+
 
 // 地區下拉
 Route::post('getarea', [AnotherController::class, 'getareas']);
@@ -88,10 +90,10 @@ Route::post('register', [RegisteredUserController::class, 'store']); //註冊
 Route::post('login', [AuthenticatedSessionController::class, 'store']); //登錄
 Route::get('share-already-login', [SharedController::class, 'index']); //共養首頁
 
-Route::post('register', [RegisteredUserController::class, 'store']);//註冊
-Route::post('login', [AuthenticatedSessionController::class, 'store']);//登錄
-
-Route::get('share-already-login',[SharedController::class, 'index']);//共養首頁
+// 體驗
+Route::get('experience/experiencer-illustrate/card', [ExperienceController::class, 'get_all_experiences']); // 所有飼主體驗
+Route::get('experience/experiencer-illustrate/card/ex-pet-detail/{id}', [ExperienceController::class, 'get_experience_detail']); // 查看詳細
+Route::get('experience/experiencer-illustrate/card/search', [ExperienceController::class, 'select_experiences']); // 體驗查詢
 
 Route::middleware('token')->group(function () {
     // 頁面測試
