@@ -20,7 +20,7 @@ class ExperienceService
         // dd();
         $comment = DB::table('experiences')
             ->join('pets', 'experiences.pet_id', '=', 'pets.id')
-            ->join('users', 'pets.user_id', '=', 'users.id')
+            ->join('users', 'experiences.user_id', '=', 'users.id')
             ->join('locations', 'users.location_id', '=', 'locations.id')
             ->select(
                 'pets.img',
